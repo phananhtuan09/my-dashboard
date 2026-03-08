@@ -1,36 +1,36 @@
 #!/bin/bash
 
-# Dừng lại nếu có bất kỳ lỗi nào xảy ra trong quá trình chạy
+# Exit immediately if any error occurs during the process
 set -e
 
-echo "🚀 Bắt đầu quá trình deploy..."
+echo "🚀 Starting deployment process..."
 
-# 1. Pull code mới nhất từ nhánh main
-echo "📥 Đang tải mã nguồn mới nhất từ Github..."
+# 1. Pull the latest code from the main branch
+echo "📥 Pulling latest source code from GitHub..."
 git pull origin main
 
-# 2. Cài đặt các thư viện/packages mới (nếu có)
-echo "📦 Đang cài đặt các dependencies..."
+# 2. Install new dependencies (if any)
+echo "📦 Installing dependencies..."
 npm install
 
-# 3. Build lại ứng dụng Next.js
-echo "🏗️ Đang build ứng dụng Next.js..."
+# 3. Rebuild the Next.js application
+echo "🏗️ Building Next.js application..."
 npm run build
 
-# 4. Khởi động / Khởi động lại ứng dụng bằng PM2
-# Bạn sẽ cần phải thay 'my-dashboard' thành tên App bạn khai báo trong PM2
-echo "🔄 Đang khởi động lại ứng dụng qua PM2..."
+# 4. Start / Restart the application using PM2
+# You need to change 'my-dashboard' to the App name declared in PM2
+echo "🔄 Restarting application via PM2..."
 
-# Kiểm tra xem app đã tồn tại trong PM2 chưa
+# Check if the app already exists in PM2
 if pm2 list | grep -q "my-dashboard"; then
-  echo "App 'my-dashboard' đã tồn tại, đang restart..."
+  echo "App 'my-dashboard' exists, restarting..."
   pm2 restart my-dashboard
 else
-  echo "App 'my-dashboard' chưa tồn tại, đang khởi tạo..."
+  echo "App 'my-dashboard' does not exist, starting..."
   pm2 start npm --name "my-dashboard" -- run start
 fi
 
-# Lưu lại cấu hình PM2 để tự chạy khi VPS khởi động lại
+# Save the PM2 configuration to run automatically when the VPS reboots
 pm2 save
 
-echo "✅ Deploy hoàn tất thành công!"
+echo "✅ Deployment completed successfully!"
