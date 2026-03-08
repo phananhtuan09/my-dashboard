@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-primary: var(--color-blue-600);
+  --color-success: var(--color-green-600);
+  --color-warning: var(--color-amber-500);
+}
+
+body {
+  background-color: var(--color-slate-50);
+  color: var(--color-gray-900);
+  font-size: 14px;
+}
+
+h1,
+.text-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+h2,
+.text-section {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.text-table {
+  font-size: 13px;
+}
