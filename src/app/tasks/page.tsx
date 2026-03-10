@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function TasksPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8">
+    <>
       <TaskListView />
-    </div>
+    </>
   );
 }

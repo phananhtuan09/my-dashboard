@@ -1,30 +1,108 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --color-primary: var(--color-blue-600);
-  --color-success: var(--color-green-600);
-  --color-warning: var(--color-amber-500);
+  --font-sans: "Inter", var(--font-inter), "cv02", "cv03", "cv04", "cv11", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Color Palette Mappings */
+  --color-slate-900: #0F172A;
+  --color-slate-800: #1E293B;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748B;
+  --color-slate-400: #94A3B8;
+  
+  --color-blue-50: #EFF6FF;
+  --color-blue-600: #2563EB;
+  --color-blue-700: #1D4ED8;
+  --color-blue-800: #1E40AF;
+  
+  --color-white: #FFFFFF;
+  
+  /* Role Mappings */
+  --color-surface: var(--color-white);
+  --color-surface-hover: rgba(148, 163, 184, 0.08);
+  --color-border-default: rgba(148, 163, 184, 0.25);
+  --color-border-subtle: rgba(148, 163, 184, 0.12);
+  
+  --color-text-primary: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-600);
+  --color-text-muted: var(--color-slate-400);
+  --color-text-inverse: var(--color-white);
+  
+  --color-accent: var(--color-blue-600);
+  --color-accent-hover: var(--color-blue-700);
+  --color-accent-light: rgba(37, 99, 235, 0.08); /* blue-tinted light background */
+  --color-accent-dark: var(--color-blue-700);
+  
+  --color-danger: var(--color-red-600);
+  --color-danger-hover: var(--color-red-700);
 }
 
 body {
-  background-color: var(--color-slate-50);
-  color: var(--color-gray-900);
+  color: var(--color-text-primary);
   font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
 
-h1,
-.text-title {
-  font-size: 20px;
-  font-weight: 600;
+h1, .h1-title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  background: linear-gradient(to right, var(--color-slate-900), var(--color-slate-600));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-h2,
-.text-section {
-  font-size: 16px;
+h2, .h2-section {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-slate-900);
+}
+
+.text-body-regular {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.text-body-medium {
+  font-size: 14px;
   font-weight: 500;
 }
 
-.text-table {
+.text-table-cell {
   font-size: 13px;
+  font-weight: 400;
+}
+
+.text-table-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.text-badge {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* Glassmorphism & Shadow Utilities */
+.frost-shadow {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(15, 23, 42, 0.08), 0 16px 32px rgba(37, 99, 235, 0.06);
+}
+.frost-shadow-hover:hover {
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.08), 0 12px 24px rgba(15, 23, 42, 0.10), 0 24px 48px rgba(37, 99, 235, 0.10);
+  transform: translateY(-2px);
+}
+.frost-glass {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
 }

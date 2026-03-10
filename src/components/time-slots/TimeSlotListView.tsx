@@ -41,6 +41,7 @@ export function TimeSlotListView() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
     fetchSlots();
   }, []);
 
@@ -132,7 +133,7 @@ export function TimeSlotListView() {
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Time Slot Manager</h1>
+          <h1 className="h1-title">Time Slot Manager</h1>
           <p className="text-sm text-gray-500 mt-1">Manage the daily blocks of time for your schedule.</p>
         </div>
         
@@ -143,43 +144,43 @@ export function TimeSlotListView() {
       </div>
 
       {loading ? (
-        <div className="py-12 text-center text-gray-500">Loading time slots...</div>
+        <div className="py-12 text-center text-text-muted">Loading time slots...</div>
       ) : (
         /* Slots List */
-        <Card className="overflow-hidden border border-gray-200">
+        <Card className="overflow-hidden">
           <div className="flex flex-col">
             {slots.map((slot, index) => (
               <div 
                 key={slot.id} 
-                className={`flex items-center justify-between p-4 bg-white transition-colors group ${
-                  index !== slots.length - 1 ? 'border-b border-gray-100' : ''
-                } hover:bg-gray-50/80 hover:border-blue-100`}
+                className={`flex items-center justify-between p-4 bg-surface transition-colors group ${
+                  index !== slots.length - 1 ? 'border-b border-border-default' : ''
+                }`}
               >
                 <div className="flex items-center gap-4 flex-1">
                   {/* Reorder Buttons */}
-                  <div className="flex flex-col text-gray-300">
+                  <div className="flex flex-col text-stone-300">
                     <button 
                       onClick={() => moveSlot(index, 'up')}
                       disabled={index === 0}
-                      className="p-0.5 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-gray-300 transition-colors"
+                      className="p-0.5 hover:text-accent disabled:opacity-30 disabled:hover:text-stone-300 transition-colors"
                     >
                       <ArrowUp className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={() => moveSlot(index, 'down')}
                       disabled={index === slots.length - 1}
-                      className="p-0.5 hover:text-blue-600 disabled:opacity-30 disabled:hover:text-gray-300 transition-colors"
+                      className="p-0.5 hover:text-accent disabled:opacity-30 disabled:hover:text-stone-300 transition-colors"
                     >
                       <ArrowDown className="w-4 h-4" />
                     </button>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-50 text-indigo-600">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-full bg-accent-light text-accent">
                       <Clock className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 tabular-nums">
+                      <h3 className="font-semibold text-text-primary tabular-nums">
                         {slot.start_time.substring(0, 5)} - {slot.end_time.substring(0, 5)}
                       </h3>
                     </div>
@@ -206,11 +207,11 @@ export function TimeSlotListView() {
 
             {slots.length === 0 && (
               <div className="py-12 text-center">
-                 <div className="inline-flex justify-center items-center w-12 h-12 rounded-full bg-gray-50 mb-4">
-                   <Clock className="w-6 h-6 text-gray-400" />
+                 <div className="inline-flex justify-center items-center w-12 h-12 rounded-full bg-stone-50 mb-4">
+                   <Clock className="w-6 h-6 text-stone-400" />
                  </div>
-                 <h3 className="text-sm font-medium text-gray-900">No time slots configured</h3>
-                 <p className="mt-1 text-sm text-gray-500 mb-4">Create your first time block to get started.</p>
+                 <h3 className="text-sm font-medium text-text-primary">No time slots configured</h3>
+                 <p className="mt-1 text-sm text-text-secondary mb-4">Create your first time block to get started.</p>
                  <Button onClick={openCreateModal} variant="secondary" size="sm">Add Time Slot</Button>
               </div>
             )}

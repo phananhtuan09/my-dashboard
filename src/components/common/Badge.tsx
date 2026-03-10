@@ -13,15 +13,15 @@ export function Badge({
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none',
+        'inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] transition-colors',
         {
-          'border-transparent bg-gray-900 text-slate-50': variant === 'default',
-          'border-transparent bg-green-100 text-green-700':
+          'bg-slate-900 text-white tracking-wide': variant === 'default',
+          'bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200/80':
             variant === 'success',
-          'border-transparent bg-amber-100 text-amber-700':
+          'bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200/80':
             variant === 'warning',
-          'border-transparent bg-blue-100 text-blue-700': variant === 'info',
-          'border-transparent bg-gray-100 text-gray-700':
+          'bg-blue-50 text-blue-700 ring-1 ring-inset ring-blue-200/80': variant === 'info',
+          'bg-slate-100 text-slate-500 ring-1 ring-inset ring-slate-200/80':
             variant === 'secondary',
         },
         className

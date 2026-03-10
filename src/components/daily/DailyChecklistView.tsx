@@ -9,6 +9,7 @@ import { Input } from '@/components/common/Input';
 import { Select } from '@/components/common/Select';
 import { CalendarRange, ChevronLeft, ChevronRight, CheckCircle2, Circle, Clock, XCircle, X } from 'lucide-react';
 import { supabase } from '@/lib/supabase/client';
+import { cn } from '@/lib/utils';
 
 type TaskStatus = 'Todo' | 'Doing' | 'Done' | 'Skip';
 
@@ -65,7 +66,7 @@ export function DailyChecklistView() {
     const taskMap = new Map(tasks.map(t => [t.id, t]));
     const slotMap = new Map(slots.map(s => [s.id, s]));
 
-    const isPristine = (log: any) => log.status === 'Todo' && !log.note && log.progress == null;
+    const isPristine = (log: DailyLog) => log.status === 'Todo' && !log.note && log.progress == null;
     const scheduleSlotIds = new Set(schedule.map(s => s.slot_id));
     
     // 1. Delete pristine logs that are no longer in the schedule
@@ -76,10 +77,10 @@ export function DailyChecklistView() {
     }
 
     // 2. Identify missing logs and logs that need a task_id update
-    const newLogsToInsert: any[] = [];
-    const logsToUpsert: any[] = [];
+    const newLogsToInsert: DailyLog[] = [];
+    const logsToUpsert: DailyLog[] = [];
 
-    const existingLogsBySlot = new Map<string, any[]>();
+    const existingLogsBySlot = new Map<string, DailyLog[]>();
     existingLogs.forEach(l => {
         if (!existingLogsBySlot.has(l.slot_id)) existingLogsBySlot.set(l.slot_id, []);
         existingLogsBySlot.get(l.slot_id)!.push(l);
@@ -101,7 +102,7 @@ export function DailyChecklistView() {
               task_id: sch.task_id,
               status: 'Todo',
               note: '',
-              progress: null
+              progress: ''
             });
          }
       }
@@ -188,11 +189,11 @@ export function DailyChecklistView() {
       {/* Header Actions */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Daily Work Checklist</h1>
+          <h1 className="h1-title">Daily Work Checklist</h1>
           <p className="text-sm text-gray-500 mt-1">Track work completed today.</p>
         </div>
         
-        <div className="flex items-center bg-white border border-gray-200 rounded-md p-1 shadow-sm">
+        <div className="flex items-center bg-surface border border-border-default rounded-lg p-1 shadow-sm">
           <Button variant="ghost" size="sm" className="px-2" onClick={() => {
             const next = new Date(currentDate);
             next.setDate(next.getDate() - 1);
@@ -219,40 +220,53 @@ export function DailyChecklistView() {
       ) : (
         <>
           {/* Desktop Table View */}
-          <div className="hidden lg:block bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div className="hidden lg:block">
             <Table>
               <TableHeader>
-                <TableRow className="bg-[#F8FAFC]">
-                  <TableHead className="w-[100px] font-semibold text-gray-900 border-b border-gray-200">Start</TableHead>
-                  <TableHead className="w-[100px] font-semibold text-gray-900 border-b border-gray-200">End</TableHead>
-                  <TableHead className="w-[250px] font-semibold text-gray-900 border-b border-gray-200">Job</TableHead>
-                  <TableHead className="w-[130px] font-semibold text-gray-900 border-b border-gray-200">Status</TableHead>
-                  <TableHead className="font-semibold text-gray-900 border-b border-gray-200">Note</TableHead>
+                <TableRow>
+                  <TableHead className="w-[100px]">Start</TableHead>
+                  <TableHead className="w-[100px]">End</TableHead>
+                  <TableHead className="w-[250px]">Job</TableHead>
+                  <TableHead className="w-[130px]">Status</TableHead>
+                  <TableHead>Note</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {logs.map((log) => {
                   const statusConfig = STATUS_CONFIG[log.status] || STATUS_CONFIG.Todo;
                   const StatusIcon = statusConfig.icon;
+                  
+                  const statusBorderClass = log.status === 'Done' ? 'border-emerald-500' 
+                    : log.status === 'Doing' ? 'border-accent' 
+                    : log.status === 'Todo' ? 'border-stone-300' 
+                    : 'border-border-default';
 
                   return (
                     <TableRow 
                       key={log.id} 
-                      className="hover:bg-blue-50/50 cursor-pointer transition-colors"
+                      className="cursor-pointer"
                       onClick={() => setEditingLog(log)}
                     >
-                      <TableCell className="font-medium text-gray-600">{log.start}</TableCell>
-                      <TableCell className="font-medium text-gray-600 border-l border-gray-100/50">{log.end}</TableCell>
-                      <TableCell className="font-medium text-gray-900 border-l border-gray-100/50">{log.job}</TableCell>
-                      <TableCell className="border-l border-gray-100/50">
+                      <TableCell className={cn("font-medium text-text-secondary border-l-2", statusBorderClass)}>{log.start}</TableCell>
+                      <TableCell className="font-medium text-text-secondary">{log.end}</TableCell>
+                      <TableCell className="font-medium text-text-primary">{log.job}</TableCell>
+                      <TableCell>
                         <Badge variant={statusConfig.color} className="flex w-max items-center">
                           <StatusIcon className="w-3.5 h-3.5 mr-1" />
                           {log.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-gray-500 border-l border-gray-100/50 text-sm">
-                        {log.note || <span className="opacity-50 italic">No notes</span>}
-                        {log.progress && <span className="ml-2 px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 text-xs">{log.progress}%</span>}
+                      <TableCell className="text-text-secondary text-sm">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1">
+                            {log.note || <span className="opacity-50 italic">No notes</span>}
+                          </div>
+                          {log.progress && (
+                            <div className="w-16 h-1.5 bg-border-subtle rounded-full overflow-hidden" title={`${log.progress}%`}>
+                               <div className="h-full bg-accent transition-all" style={{ width: `${log.progress}%` }} />
+                            </div>
+                          )}
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

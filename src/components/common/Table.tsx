@@ -6,9 +6,9 @@ export function Table({
   ...props
 }: React.HTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="relative w-full overflow-auto rounded-md border border-gray-200 bg-white">
+    <div className="relative w-full overflow-auto rounded-2xl border border-[rgba(148,163,184,0.2)] bg-white text-slate-900 frost-shadow">
       <table
-        className={cn('text-table w-full caption-bottom', className)}
+        className={cn('text-table-cell w-full caption-bottom', className)}
         {...props}
       />
     </div>
@@ -21,7 +21,7 @@ export function TableHeader({
 }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
     <thead
-      className={cn('bg-slate-50 [&_tr]:border-b', className)}
+      className={cn('border-b border-[rgba(148,163,184,0.15)]', className)}
       {...props}
     />
   );
@@ -32,7 +32,7 @@ export function TableBody({
   ...props
 }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
-    <tbody className={cn('[&_tr:last-child]:border-0', className)} {...props} />
+    <tbody className={cn('divide-y divide-[rgba(148,163,184,0.1)]', className)} {...props} />
   );
 }
 
@@ -43,7 +43,7 @@ export function TableRow({
   return (
     <tr
       className={cn(
-        'border-b border-gray-200 transition-colors hover:bg-slate-50/50 data-[state=selected]:bg-slate-50',
+        'transition-colors hover:bg-blue-600/3 data-[state=selected]:bg-blue-600/6',
         className
       )}
       {...props}
@@ -58,7 +58,7 @@ export function TableHead({
   return (
     <th
       className={cn(
-        'h-10 border-r border-gray-200 px-4 text-left align-middle font-medium text-gray-500 last:border-r-0',
+        'h-10 bg-blue-50/80 px-5 text-left align-middle text-[11px] font-semibold uppercase tracking-[0.1em] text-slate-500',
         className
       )}
       {...props}
@@ -72,10 +72,7 @@ export function TableCell({
 }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
     <td
-      className={cn(
-        'border-r border-gray-200 p-4 align-middle last:border-r-0',
-        className
-      )}
+      className={cn('px-5 py-4 align-middle', className)}
       {...props}
     />
   );

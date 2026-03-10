@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function DailyPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8">
+    <>
       <DailyChecklistView />
-    </div>
+    </>
   );
 }

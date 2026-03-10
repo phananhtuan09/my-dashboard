@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} bg-slate-50 font-sans text-gray-900 antialiased`}
+        className={`${inter.variable} font-sans text-gray-900 antialiased`}
       >
         <AppShell>
           {children}
