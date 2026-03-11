@@ -163,10 +163,13 @@ export function DailyChecklistView() {
 
   const handleUpdate = async (updatedLog: DailyLog) => {
     setSaving(true);
-    let progressVal: number | null = parseInt(updatedLog.progress);
-    if (isNaN(progressVal)) progressVal = null;
-    else if (updatedLog.progress.includes('%')) {
+    let progressVal: number | null = null;
+    if (updatedLog.progress) {
+      progressVal = parseInt(updatedLog.progress);
+      if (isNaN(progressVal)) progressVal = null;
+      else if (updatedLog.progress.includes('%')) {
         progressVal = parseInt(updatedLog.progress.replace(/\D/g, ''));
+      }
     }
 
     const { error } = await supabase
@@ -369,11 +372,11 @@ export function DailyChecklistView() {
 
                  <div className="space-y-1.5">
                    <label className="text-sm font-medium text-gray-700">Progress (%)</label>
-                   <Input 
+                   <Input
                      type="number"
                      min="0"
                      max="100"
-                     value={editingLog.progress} 
+                     value={editingLog.progress ?? ''}
                      onChange={(e) => setEditingLog({...editingLog, progress: e.target.value})}
                      placeholder="e.g. 50"
                      disabled={saving}
