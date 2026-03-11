@@ -20,7 +20,7 @@ interface DailyLog {
   task_id: string;
   status: TaskStatus;
   note: string;
-  progress: string;
+  progress: string | null;
   // joined fields for UI
   start?: string;
   end?: string;
@@ -109,15 +109,18 @@ export function DailyChecklistView() {
     }
 
     if (logsToUpsert.length > 0) {
-      await supabase.from('daily_logs').upsert(logsToUpsert.map(l => ({
-        id: l.id,
-        date: l.date,
-        slot_id: l.slot_id,
-        task_id: l.task_id,
-        status: l.status,
-        note: l.note,
-        progress: l.progress
-      })));
+      await supabase.from('daily_logs').upsert(logsToUpsert.map(l => {
+        const progressNum = l.progress ? parseInt(l.progress) : null;
+        return {
+          id: l.id,
+          date: l.date,
+          slot_id: l.slot_id,
+          task_id: l.task_id,
+          status: l.status,
+          note: l.note,
+          progress: isNaN(progressNum as number) ? null : progressNum
+        };
+      }));
     }
 
     if (newLogsToInsert.length > 0) {
