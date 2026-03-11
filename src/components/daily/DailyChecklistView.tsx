@@ -102,7 +102,7 @@ export function DailyChecklistView() {
               task_id: sch.task_id,
               status: 'Todo',
               note: '',
-              progress: ''
+              progress: null
             });
          }
       }
